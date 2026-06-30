@@ -4,12 +4,14 @@ public class DisjointSet {
     // parent array and rank array
     private ArrayList<Integer> parent = new ArrayList<>();
     private ArrayList<Integer> rank = new ArrayList<>();
+    private ArrayList<Integer> size = new ArrayList<>();
     
     // initialize
     public DisjointSet(int n){
         for(int i=0; i<=n; i++){ //in case of 1 based indexing, kept it equal to n
             parent.add(i);
             rank.add(0);
+            size.add(1); // Initialize size of each component as 1
         }
     }
     
@@ -41,7 +43,25 @@ public class DisjointSet {
             parent.set(vUltPar, uUltPar);
         }
         else{ // rank vpar > rank upar
-            parent.set(uUltPar, uUltPar);
+            parent.set(uUltPar, vUltPar);
+        }
+    }
+
+        public void unionBySize(int u, int v){
+        int ultPar_u = findUltParent(u);
+        int ultPar_v = findUltParent(v);
+        
+        if(ultPar_u == ultPar_v) return; // no need to do anything
+
+        if(size.get(ultPar_v)>= size.get(ultPar_u)){ 
+            int sizeV = size.get(ultPar_v);
+            size.set(ultPar_v, size.get(ultPar_u) + sizeV);
+            parent.set(ultPar_u, ultPar_v);
+        }
+        else{
+            int sizeU = size.get(ultPar_u);
+            size.set(ultPar_u, sizeU + size.get(ultPar_v));
+            parent.set(ultPar_v, ultPar_u);
         }
     }
 
