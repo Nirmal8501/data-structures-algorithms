@@ -13,7 +13,7 @@ class Solution {
         // using prims;
         int wt = 0;
         List<List<Edge>> adjList = new ArrayList<>();
-        List<Edge> mst = new ArrayList<>();
+        List<MSTEdge> mst = new ArrayList<>();
         PriorityQueue<State> pq = new PriorityQueue<>((a,b) -> a.weight - b.weight);
         int[] visited = new int[V];
         
@@ -46,7 +46,7 @@ class Solution {
             
             if(parent != -1){
                 // include to MST.
-                mst.add(new Edge(node, parent));
+                mst.add(new MSTEdge(node, parent, weight));
             }
             
             for(Edge edge : adjList.get(node)){
@@ -80,4 +80,16 @@ class Solution {
             this.parent = parent;
         }
     }
+
+    class MSTEdge{
+    int u;
+    int v;
+    int wt;
+
+    MSTEdge(int u,int v,int wt){
+        this.u=u;
+        this.v=v;
+        this.wt=wt;
+    }
+}
 }
